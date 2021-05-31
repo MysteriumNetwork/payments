@@ -67,7 +67,7 @@ func NewGecko(baseURI string) *Gecko {
 				ExpectContinueTimeout: 4 * time.Second,
 				ResponseHeaderTimeout: 3 * time.Second,
 			},
-			Timeout: 30 * time.Second,
+			Timeout: 10 * time.Second,
 		},
 	}
 }
@@ -92,6 +92,7 @@ func (pr PriceResponse) GetPriceInUSD(c currency) (float64, bool) {
 func (g *Gecko) GetCoinPrice(coins []string, vsCurrencies []string) (PriceResponse, error) {
 	path := fmt.Sprintf("simple/price?ids=%v&vs_currencies=%v", strings.Join(coins, ","), strings.Join(vsCurrencies, ","))
 	url := fmt.Sprintf("%v%v", g.baseURI, path)
+	fmt.Println("calling ", url)
 	resp, err := g.client.Get(url)
 	if err != nil {
 		return PriceResponse{}, err
